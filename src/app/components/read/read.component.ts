@@ -36,12 +36,8 @@ export class ReadComponent implements OnInit {
   ngOnInit(): void {
     this.searchInput.valueChanges.pipe(startWith('')).subscribe((query) => {
       if (query === '') {
-        this.categories$ = this.category.getCategories().pipe(
-          map((categoryInfo: CategoryInfo) => categoryInfo.response.data)
-        )
-        this.portfolios$ = this.portfolio.getPortfolios().pipe(
-          map((portfolioInfo: PortfolioInfo) => portfolioInfo.response.data)
-        )
+        this.getCategories();
+        this.getPortfolios();
       }
       else {
         if (this.page.getCurrentSection() === 'category') {
@@ -59,21 +55,27 @@ export class ReadComponent implements OnInit {
       }
     })
   }
+  public getCategories() {
+    this.categories$ = this.category.getCategories().pipe(
+      map((categoryInfo: CategoryInfo) => categoryInfo.response.data)
+    )
+  }
+  public getPortfolios() {
+    this.portfolios$ = this.portfolio.getPortfolios().pipe(
+      map((portfolioInfo: PortfolioInfo) => portfolioInfo.response.data)
+    )
+  }
   public onDeleteCategory(id: number | undefined) {
     if (typeof id === "number") {
       this.category.deleteCategory(id).subscribe(() => {
-        this.categories$ = this.categories$.pipe(
-          map(categories => categories.filter(category => category.id !== id))
-        )
+        this.getCategories();
       })
     }
   }
   public onDeletePortfolio(id: number | undefined) {
     if (typeof id === "number") {
       this.portfolio.deletePortfolio(id).subscribe(() => {
-        this.portfolios$ = this.portfolios$.pipe(
-          map(portfolios => portfolios.filter(portfolio => portfolio.id !== id))
-        )
+        this.getPortfolios();
       })
     }
   }
@@ -93,9 +95,7 @@ export class ReadComponent implements OnInit {
     this.category.updateCategory(category).subscribe((response) => {
       this.showSuccessStatus(response);
       
-      this.categories$ = this.category.getCategories().pipe(
-        map((categoryInfo: CategoryInfo) => categoryInfo.response.data)
-      )
+      this.getCategories();
     });
   }
   public get portfolioImage(): FormControl {
@@ -122,9 +122,7 @@ export class ReadComponent implements OnInit {
     
     this.portfolio.updatePortfolio(formData, id).subscribe((response) => {
       this.showSuccessStatus(response);
-      this.portfolios$ = this.portfolio.getPortfolios().pipe(
-        map((portfolioInfo: PortfolioInfo) => portfolioInfo.response.data)
-      )
+      this.getPortfolios();
     })
   }
   private showSuccessStatus(response: Object) {
