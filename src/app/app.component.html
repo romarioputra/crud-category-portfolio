@@ -1,0 +1,23 @@
+<div class="container-fluid w-50 d-flex mt-5 justify-content-between">
+  <div class="dropdown">
+    <button class="btn btn-dark dropdown-toggle" type="button" id="create" data-bs-toggle="dropdown">
+      CREATE
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="create">
+      <li><a class="dropdown-item" routerLink="/create/category">Category</a></li>
+      <li><a class="dropdown-item" routerLink="/create/portfolio">Portfolio</a></li>
+    </ul>
+  </div>
+  <div class="dropdown">
+    <button class="btn btn-dark dropdown-toggle" type="button" id="read" data-bs-toggle="dropdown">
+      READ
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="read">
+      <li><a class="dropdown-item" routerLink="/read/category">Category</a></li>
+      <li><a class="dropdown-item" routerLink="/read/portfolio">Portfolio</a></li>
+    </ul>
+  </div>
+</div>
+<div class="container-fluid w-50 mt-5">
+  <router-outlet></router-outlet>
+</div>
